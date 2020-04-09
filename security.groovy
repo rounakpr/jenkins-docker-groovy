@@ -10,7 +10,7 @@ import jenkins.security.QueueItemAuthenticatorConfiguration
 import org.jenkinsci.plugins.authorizeproject.GlobalQueueItemAuthenticator
 import org.jenkinsci.plugins.authorizeproject.strategy.TriggeringUsersAuthorizationStrategy
 
-println("======== Configuring users =========")
+println("======== Configuring users ========")
 
 # JenkinsLocationConfiguration class Stores the location of Jenkins (e-mail address and the HTTP URL.)
 def instance = Jenkins.getInstance()
@@ -31,3 +31,10 @@ println "Updating Jenkins Email to: ${admin_email}"
 location.adminAddress = admin_email
 instance.save()
 location.save()
+
+# Configure Authortize in manageJenkins 
+println("======== Configure Authorize Project ========")
+GlobalQueueItemAuthenticator auth = new GlobalQueueItemAuthenticator(
+    new TriggeringUsersAuthorizationStrategy()
+)
+QueueItemAuthenticatorConfiguration.get().authenticators.add(auth)
